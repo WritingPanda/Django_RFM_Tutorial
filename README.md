@@ -2,7 +2,7 @@
 
 The tutorial can be found [here](http://www.django-rest-framework.org/tutorial/1-serialization/).
 
-I am on [step 2 of the tutorial](http://www.django-rest-framework.org/tutorial/2-requests-and-responses/), and I will be updating the README file each time to move to another step.
+I am on [step 3 of the tutorial](http://www.django-rest-framework.org/tutorial/3-class-based-views/), and I will be updating the README file each time to move to another step.
 
 ### What I have done so far:
 
