@@ -20,4 +20,13 @@ I am on [step 2 of the tutorial](http://www.django-rest-framework.org/tutorial/2
 
 #### Tutorial 2
 
+- Learned and worked with both the Request and Response objects
+- Used the Status codes built into the framework
+- Used the api\_view decorator instead of the csrf\_exempt
+- Refactored views.py to use the @api\_view decorator along with status codes, response, and request
+- Added the optional suffix to the URLs
+- Tested it out using httpie and a browser
+
+#### Tutorial 3
+
 - Working on it now
