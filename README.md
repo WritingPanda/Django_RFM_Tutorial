@@ -61,6 +61,7 @@ I am on [step 4 of the tutorial](http://www.django-rest-framework.org/tutorial/4
 - Refactored to use mixins to decrease amount of code written and to uphold the DRY method
 - At the end, refactored again to use generic class-based views, as shown in the final version of this recent commit:
 
+```
     from snippets.models import Snippet
     from snippets.serializers import SnippetSerializer
     from rest_framework import generics
@@ -74,6 +75,7 @@ I am on [step 4 of the tutorial](http://www.django-rest-framework.org/tutorial/4
     class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
         queryset = Snippet.objects.all()
         serializer_class = SnippetSerializer
+```
 
 #### Tutorial 4
 - Working on it now
