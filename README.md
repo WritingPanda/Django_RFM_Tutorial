@@ -32,6 +32,7 @@ I am on [step 4 of the tutorial](http://www.django-rest-framework.org/tutorial/4
 - Rewrote API with using class based views
 - Initially began with a more verbose manner of writing classes:
 
+```
     from snippets.models import Snippet
     from snippets.serializers import SnippetSerializer
     from django.http import Http404
@@ -54,6 +55,7 @@ I am on [step 4 of the tutorial](http://www.django-rest-framework.org/tutorial/4
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+```
 
 - Changed the urls.py file to match with the class-based views
 - Refactored to use mixins to decrease amount of code written and to uphold the DRY method
