@@ -2,7 +2,7 @@
 
 The tutorial can be found [here](http://www.django-rest-framework.org/tutorial/1-serialization/).
 
-I am on [step 4 of the tutorial](http://www.django-rest-framework.org/tutorial/4-authentication-and-permissions/), and I will be updating the README file each time to move to another step.
+I am on [step 5 of the tutorial](http://www.django-rest-framework.org/tutorial/5-relationships-and-hyperlinked-apis/), and I will be updating the README file each time to move to another step.
 
 ### What I have done so far:
 
@@ -78,5 +78,33 @@ I am on [step 4 of the tutorial](http://www.django-rest-framework.org/tutorial/4
 ```
 
 #### Tutorial 4
+
+- Worked with permissions on class-based views
+- Code snippets are now always associated with a creator
+- Only authenticated users can create snippets
+- Creator may update or delete code snippet
+- Unauthenticated requests should have full read-only access
+- Added User classes along with views to see users
+- Created UserSerializer to serialize data to JSON for viewing in browser
+- Worked with object level permissions:
+
+```
+    class IsOwnerOrReadOnly(permissions.BasePermission):
+    """
+    Custom permission to only allow owners of an object to edit it.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        # Read permissions are allowed to any request,
+        # so we'll always allow GET, HEAD or OPTIONS requests.
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        # Write permissions are only allowed to the owner of the snippet.
+        return obj.owner == request.user
+```
+
+
+#### Tutorial 5
 
 - Working on it now
