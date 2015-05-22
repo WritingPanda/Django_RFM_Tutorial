@@ -2,7 +2,7 @@
 
 The tutorial can be found [here](http://www.django-rest-framework.org/tutorial/1-serialization/).
 
-I am on [step 5 of the tutorial](http://www.django-rest-framework.org/tutorial/5-relationships-and-hyperlinked-apis/), and I will be updating the README file each time to move to another step.
+I am on [step 6 of the tutorial](http://www.django-rest-framework.org/tutorial/6-viewsets-and-routers/), and I will be updating the README file each time to move to another step.
 
 ### What I have done so far:
 
@@ -106,5 +106,14 @@ I am on [step 5 of the tutorial](http://www.django-rest-framework.org/tutorial/5
 
 
 #### Tutorial 5
+
+- Created relationships with hyperlinks instead of primary keys
+- Removed pk from model and put url instead
+- This allows me to customize what snippets I want linked to what
+- I now have an HTML representation of the code snippets, which looks great
+- Added names to URL patterns
+- Added pagination
+
+#### Tutorial 6
 
 - Working on it now
