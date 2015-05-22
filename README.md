@@ -2,8 +2,6 @@
 
 The tutorial can be found [here](http://www.django-rest-framework.org/tutorial/1-serialization/).
 
-I am on [step 6 of the tutorial](http://www.django-rest-framework.org/tutorial/6-viewsets-and-routers/), and I will be updating the README file each time to move to another step.
-
 ### What I have done so far:
 
 #### Tutorial 1
@@ -116,4 +114,65 @@ I am on [step 6 of the tutorial](http://www.django-rest-framework.org/tutorial/6
 
 #### Tutorial 6
 
-- Working on it now
+- A little confused about this part. A lot of it is just refactoring the views and the urls.py files
+- Refactored to use ViewSets and Routers
+- Routers seem to do a lot of the work I was already hard coding. Good to know, but I think it abstracts too much away from what I want to do.
+- Harder to maintain, I believe. For small stuff, I think it should be fine, but if we need more custom configuration of our class-based views, not using routers might make the most sense. I don't competely understand it, though, so it is something worth looking into more.
+
+```
+@api_view(('GET',))
+def api_root(request, format=None):
+    return Response({
+        'users': reverse('user-list', request=request, format=format),
+        'snippets': reverse('snippet-list', request=request, format=format)
+    })
+
+
+class SnippetViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides list, create, retrieve,
+    update, and destroy actions.
+    """
+    queryset = Snippet.objects.all()
+    serializer_class = SnippetSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+
+    @detail_route(renderer_classes=[renderers.StaticHTMLRenderer])
+    def highlight(self, request, *args, **kwargs):
+        snippet = self.get_object()
+        return Response(snippet.highlighted)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This viewset automatically provides list and detail actions
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+```
+- The Routers take care of the urls, which is nice.
+```
+from django.conf.urls import url, include
+from snippets import views
+from rest_framework.routers import DefaultRouter
+
+# Create a router and register our viewsets with it.
+router = DefaultRouter()
+router.register(r'snippets', views.SnippetViewSet)
+router.register(r'users', views.UserViewSet)
+
+# The API URLs are now determined automatically by the router.
+# Additionally, we include the login URLs for the browsable API.
+urlpatterns = [
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+]
+```
+
+### Next steps
+
+- Figure out how to bring these views to the browser using custom templates
+- Integrate with ReactJS

@@ -1,37 +1,24 @@
-from django.contrib.auth.urls import url
-from snippets.views import SnippetViewSet, UserViewSet, api_root
-from rest_framework import renderers
-from rest_framework.urlpatterns import format_suffix_patterns
+from django.conf.urls import url, include
+from snippets import views
+from rest_framework.routers import DefaultRouter
 
-snippet_list = SnippetViewSet.as_view({
-    'get': 'list',
-    'post': 'create'
-})
 
-snippet_detail = SnippetViewSet.as_view({
-    'get': 'retrieve',
-    'put': 'update',
-    'patch': 'partial_update',
-    'delete': 'destroy'
-})
+# Create a router and register our viewsets with it.
+router = DefaultRouter()
+router.register(r'snippets', views.SnippetViewSet)
+router.register(r'users', views.UserViewSet)
 
-snippet_highlight = SnippetViewSet.as_view({
-    'get': 'highlight'
-}, renderer_classes=[renderers.StaticHTMLRenderer])
+# The API urls are now determined automatically by the router.
+# Additionally, we include the login urls for the browsable API.
 
-user_list = UserViewSet.as_view({
-    'get': 'list'
-})
+urlpatterns = [
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+]
 
-user_detail = UserViewSet.as_view({
-    'get': 'retrieve'
-})
 
-urlpatterns = format_suffix_patterns([
-    url(r'^$', api_root),
-    url(r'^snippets/$', snippet_list, name='snippet-list'),
-    url(r'^snippets/(?P<pk>[0-9]+/$', snippet_detail, name='snippet-detail'),
-    url(r'^snippets/(?P<pk>[0-9]+/highlight/$', snippet_highlight, name='snippet-highlight'),
-    url(r'^users/$', user_list, name='user-list'),
-    url(r'^users/(?P<pk>[0-9]+/$', user_detail, name='user-detail')
-])
+"""
+Using viewsets can be a really useful abstraction. It helps ensure that URL conventions will be consistent across your API, minimizes the amount of code you need to write, and allows you to concentrate on the interactions and representations your API provides rather than the specifics of the URL conf.
+
+That doesn't mean it's always the right approach to take. There's a similar set of trade-offs to consider as when using class-based views instead of function based views. Using viewsets is less explicit than building your views individually.
+"""
